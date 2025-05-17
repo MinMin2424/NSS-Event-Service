@@ -11,6 +11,9 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
@@ -42,6 +45,7 @@ public class EventService {
         return events;
     }
 
+    @Cacheable("events")
     public Event getEventById(Long id) {
         return events.stream()
                 .filter(event -> Objects.equals(event.getId(), id))
@@ -60,6 +64,7 @@ public class EventService {
                 .collect(Collectors.toList());
     }
 
+    @CacheEvict(value = "events", key = "#eventId")
     public Optional<Event> resolveEvent(Long eventId) {
         Optional<Event> resolvedEvent = events.stream()
                 .filter(event -> Objects.equals(event.getId(),eventId))
@@ -69,6 +74,7 @@ public class EventService {
         return resolvedEvent;
     }
 
+    @CachePut(value = "events", key = "#updatedEvent.id")
     public Event updateEvent(Event updatedEvent) {
         Event event = getEventById(updatedEvent.getEventId());
         if (event != null) {
@@ -83,6 +89,7 @@ public class EventService {
         return event;
     }
 
+    @CacheEvict(value = "events", key = "#id")
     public void deleteEvent(Long id) {
         events.removeIf(event -> event.getId().equals(id));
     }
