@@ -11,6 +11,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import cz.cvut.fel.NSS_event_service.entities.Event;
@@ -22,6 +23,9 @@ public class EventService {
     public final AtomicLong idGenerator = new AtomicLong(1);
 
     @Autowired
+    private KafkaTemplate<String, String> kafka;
+
+    @Autowired
     public EventService( List<Event> events) {
         this.events = events;
     }
@@ -30,6 +34,7 @@ public class EventService {
         Long eventId = idGenerator.getAndIncrement();
         event.setId(eventId);
         events.add(event);
+        kafka.send("log.created", String.format("Creating event with id: %d in room: %d and appliance: %d", event.getId(), event.getRoomId(), event.getApplianceId()));
         return event;
     }
 
@@ -60,6 +65,7 @@ public class EventService {
                 .filter(event -> Objects.equals(event.getId(),eventId))
                 .findFirst();
         resolvedEvent.get().setEventState(EventState.IS_RESOLVED);
+        kafka.send("log.created", String.format("Resolving event with id: %d in room: %d and appliance: %d", resolvedEvent.get().getId(), resolvedEvent.get().getRoomId(), resolvedEvent.get().getApplianceId()));
         return resolvedEvent;
     }
 
