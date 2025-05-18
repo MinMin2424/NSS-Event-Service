@@ -23,7 +23,7 @@ import cz.cvut.fel.NSS_event_service.services.EventService;
 
 @RestController
 @RequestMapping("")
-public class EventController {
+public class EventController implements EventControllerInterface {
     private final EventService eventService;
 
     @Autowired

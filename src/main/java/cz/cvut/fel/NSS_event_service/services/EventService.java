@@ -21,7 +21,7 @@ import cz.cvut.fel.NSS_event_service.entities.Event;
 import cz.cvut.fel.NSS_event_service.entities.EventState;
 
 @Service
-public class EventService {
+public class EventService implements EventServiceInterface {
     private final List<Event> events;
     public final AtomicLong idGenerator = new AtomicLong(1);
 

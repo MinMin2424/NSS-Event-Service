@@ -4,6 +4,11 @@
 
 package cz.cvut.fel.NSS_event_service.entities;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
 public class Event {
 
     private Long id;
@@ -23,63 +28,4 @@ public class Event {
         this.roomId = roomId;
     }
 
-    public Event() {
-
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public int getEventDateTime() {
-        return eventDateTime;
-    }
-
-    public void setEventDateTime(int eventDateTime) {
-        this.eventDateTime = eventDateTime;
-    }
-
-    public EventState getEventState() {
-        return eventState;
-    }
-
-    public void setEventState(EventState eventState) {
-        this.eventState = eventState;
-    }
-
-    public Long getApplianceId() {
-        return applianceId;
-    }
-
-    public void setApplianceId(Long applianceId) {
-        this.applianceId = applianceId;
-    }
-
-    public Long getPersonId() {
-        return personId;
-    }
-
-    public void setPersonId(Long personId) {
-        this.personId = personId;
-    }
-
-    public Long getRoomId() {
-        return roomId;
-    }
-
-    public void setRoomId(Long roomId) {
-        this.roomId = roomId;
-    }
-
-    public Long getEventId() {
-        return eventId;
-    }
-
-    public void setEventId(Long eventId) {
-        this.eventId = eventId;
-    }
 }
